@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ReclamationController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\GuestTicketController;
+use App\Http\Controllers\StatisticsController;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -45,6 +46,12 @@ Route::get('UnTicket', [TicketController::class, 'showOne'])->name('oneTicket');
 Route::patch('/updateTicket/{id}', [TicketController::class, 'edit'])->name('editTicket');
 Route::delete('/Tickets/{ticket}', [TicketController::class, 'destroy'])->name('destroyTicket');
 
+Route::patch('/tickets/{ticket}/assign', [TicketController::class, 'assignTicket'])->name('assignTicket')->middleware('can:assign,ticket');
+
+// Route::get('/statistics', [StatisticsController::class, 'getStatistics']);
+Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
+
+
 // Guest
 Route::get('/guest-ticket', [GuestTicketController::class, 'create'])->name('guest_ticket.create');
 Route::get('/submit-ticket', [GuestTicketController::class, 'store'])->name('guest_ticket.store');
@@ -53,8 +60,8 @@ Route::get('/track-ticket', [GuestTicketController::class, 'trackForm'])->name('
 Route::post('/track-ticket', [GuestTicketController::class, 'track'])->name('guest_ticket.track');
 Route::get('/ticket/{tracking_code}', [GuestTicketController::class, 'status'])->name('guest_ticket.status');
 
-Route::get('/test-email', function () {
-    $ticket = App\Models\Ticket::first(); // Assuming you have at least one ticket in your database
-    Mail::to('eytchcreations@gmail.com')->send(new App\Mail\TicketSubmitted($ticket)); // Replace with a real email
-    return 'Email sent!';
-});
+// Route::get('/test-email', function () {
+//     $ticket = App\Models\Ticket::first(); // Assuming you have at least one ticket in your database
+//     Mail::to('eytchcreations@gmail.com')->send(new App\Mail\TicketSubmitted($ticket)); // Replace with a real email
+//     return 'Email sent!';
+// });

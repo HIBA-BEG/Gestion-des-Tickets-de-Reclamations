@@ -22,6 +22,7 @@ class Ticket extends Model
         'tracking_code',
         'guest_name',
         'guest_email',
+        'assigned_to',
     ];
 
     public function user()
@@ -41,5 +42,9 @@ class Ticket extends Model
     public function screenshots()
     {
         return $this->hasMany(TicketScreenshot::class);
+    }
+    public function assignedUser()
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
     }
 }

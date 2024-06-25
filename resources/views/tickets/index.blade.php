@@ -8,32 +8,32 @@
     <div class="lg:ml-64 mx-auto py-20 px-10">
         <h1 class="text-2xl font-bold mb-6">All Tickets</h1>
         <div id="alertDiv" class="my-5">
-                @if ($errors->any())
-                <div class="col-12">
-                    @foreach ($errors->all() as $error)
-                    <div class="bg-red-100 border border-red-400 text-red-700 w-full px-4 py-3 lg:px-0 mx-auto rounded relative" role="alert">
-                        <strong class="font-bold">
-                            {{ $error }}
-                        </strong>
-                    </div>
-                    @endforeach
-                </div>
-                @endif
-                @if (session()->has('error'))
+            @if ($errors->any())
+            <div class="col-12">
+                @foreach ($errors->all() as $error)
                 <div class="bg-red-100 border border-red-400 text-red-700 w-full px-4 py-3 lg:px-0 mx-auto rounded relative" role="alert">
                     <strong class="font-bold">
-                        {{ session('error') }}
+                        {{ $error }}
                     </strong>
                 </div>
-                @endif
-                @if (session()->has('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 w-full px-4 py-3 lg:px-0 mx-auto rounded relative" role="alert">
-                    <strong>
-                        {{ session('success') }}
-                    </strong>
-                </div>
-                @endif
+                @endforeach
             </div>
+            @endif
+            @if (session()->has('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 w-full px-4 py-3 lg:px-0 mx-auto rounded relative" role="alert">
+                <strong class="font-bold">
+                    {{ session('error') }}
+                </strong>
+            </div>
+            @endif
+            @if (session()->has('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 w-full px-4 py-3 lg:px-0 mx-auto rounded relative" role="alert">
+                <strong>
+                    {{ session('success') }}
+                </strong>
+            </div>
+            @endif
+        </div>
         <div class="m-auto overflow-x-auto">
             <table class="bg-white border border-gray-200">
                 <thead>
@@ -102,20 +102,20 @@
                             <span class="bg-red-200 text-blue-600 py-1 px-3 rounded-full text-xs whitespace-nowrap">{{ $ticket->etat }}</span>
                         </td>
                         <td class="py-3 px-4 text-center">
-                            <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
-                                @csrf
-                                @method('POST')
-                                <select name="role" id="role" class="whitespace-nowrap rounded-3xl bg-[#F7F5F4] py-2 text-center text-inherit shadow-lg" @error('role') border-red-500 @enderror">
-                                    <option selected value="Responsable">Responsable</option>
-                                    <option value="Niv 1">Niv 1</option>
-                                    <option value="Niv 2">Niv 2</option>
-                                    <option value="Utilisateur standard">Utilisateur standard</option>
-                                </select>
-                                @error('impacte')
-                                <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                                @enderror
-                            </form>
+                            @if(Auth::user()->role === 'Responsable')
+                            <select id="assigned_to_{{ $ticket->id }}" class="whitespace-nowrap rounded-3xl bg-[#F7F5F4] py-2 text-center text-inherit shadow-lg" onchange="assignTicket({{ $ticket->id }}, this.value)">
+                                <option value="">Select User</option>
+                                @foreach($eligibleUsers as $user)
+                                <option value="{{ $user->id }}" {{ $ticket->assigned_to == $user->id ? 'selected' : '' }}>
+                                    {{ $user->firstname }} {{ $user->lastname }} ({{ $user->role }})
+                                </option>
+                                @endforeach
+                            </select>
+                            @else
+                            {{ $ticket->assignedUser ? $ticket->assignedUser->firstname . ' ' . $ticket->assignedUser->lastname : 'Unassigned' }}
+                            @endif
                         </td>
+
                         <td class="py-3 px-4 text-center text-red-600 font-semibold whitespace-nowrap">{{ $ticket->systeme }}</td>
                         <td class="py-3 px-4 text-left">{{ $ticket->description }}</td>
                         <td class="py-3 px-4 text-center">
@@ -144,6 +144,54 @@
         setTimeout(function() {
             document.getElementById('alertDiv').style.display = 'none';
         }, 4000); // 4000 milliseconds 
+
+        // function assignTicket(ticketId, userId) {
+        //     fetch(`/tickets/${ticketId}/assign`, {
+        //             method: 'PATCH',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        //             },
+        //             body: JSON.stringify({
+        //                 assigned_to: userId
+        //             })
+        //         })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             if (data.success) {
+        //                 console.log('Ticket assigned successfully');
+        //             } else {
+        //                 console.error('Failed to assign ticket');
+        //             }
+        //         })
+        //         .catch(error => console.error('Error:', error));
+        // }
+
+        function assignTicket(ticketId, userId) {
+            fetch(`/tickets/${ticketId}/assign`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        assigned_to: userId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Ticket assigned successfully');
+                        // Optionally update the UI here
+                    } else {
+                        alert('Failed to assign ticket: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while assigning the ticket');
+                });
+        }
     </script>
 </body>
 
