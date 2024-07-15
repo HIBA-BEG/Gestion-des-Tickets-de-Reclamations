@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('tracking_code')->unique();
             $table->string('guest_name')->nullable();
             $table->string('guest_email')->nullable();
-            $table->string('screenshot_prob')->nullable(); //add stcreenshot 1 picture or should i add a table so i can add multiple pictures
             $table->unsignedBigInteger('assigned_to')->nullable();
             $table->foreign('assigned_to')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();

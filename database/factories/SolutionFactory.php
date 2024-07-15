@@ -14,7 +14,6 @@ class SolutionFactory extends Factory
     {
         return [
             'solution' => $this->faker->paragraph,
-            'screenshot' => $this->faker->imageUrl(),
             'ticket_id' => Ticket::factory(),
         ];
     }

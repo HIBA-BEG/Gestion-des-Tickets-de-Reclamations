@@ -35,9 +35,9 @@ class Ticket extends Model
         return $this->hasMany(Notification::class);
     }
 
-    public function solution()
+    public function solutions()
     {
-        return $this->hasOne(Solution::class);
+        return $this->hasMany(Solution::class);
     }
     public function screenshots()
     {
@@ -47,4 +47,5 @@ class Ticket extends Model
     {
         return $this->belongsTo(User::class, 'assigned_to');
     }
+
 }

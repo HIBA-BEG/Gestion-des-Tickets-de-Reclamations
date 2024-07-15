@@ -59,7 +59,7 @@ class GuestTicketController extends Controller
         // dd($ticket);
         Mail::to($request->email)->send(new TicketSubmitted($ticket));
 
-        return redirect()->route('guest_ticket.create')->with('status', 'Ticket submitted successfully. Your tracking code is ' . $tracking_code);
+        return redirect()->route('guest_ticket.create')->with('success', 'Ticket submitted successfully. Your tracking code is ' . $tracking_code);
     }
 
 
@@ -74,9 +74,9 @@ class GuestTicketController extends Controller
             'tracking_code' => 'required|string',
         ]);
 
-        $ticket = Ticket::where('tracking_code', $request->tracking_code)->firstOrFail();
+        $ticket = Ticket::where('tracking_code', $request->tracking_code)->with('solutions.screenshots')->firstOrFail();
 
-        return redirect()->route('guest_ticket.status', ['tracking_code' => $ticket->tracking_code]);
+        return view('tickets.show', compact('ticket'));
     }
 
     public function status($tracking_code)

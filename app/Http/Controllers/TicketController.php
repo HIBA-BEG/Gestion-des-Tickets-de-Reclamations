@@ -50,14 +50,18 @@ class TicketController extends Controller
             'assigned_to' => $request->assigned_to,
         ]);
 
-        return response()->json(['success' => true, 'message' => 'Ticket assigned successfully.']);
+        return response()->json(['success' => true, 'message' => 'Ticket assigné avec succès.']);
     }
 
     
-    public function showOne(Request $request)
+    public function showOne($ticketID)
     {
-        $ticket  = Ticket::findOrFail($request->ticketID);
-        return redirect()->route('ticket.show', compact('ticket'));
+        // $ticket  = Ticket::with('screenshots')->findOrFail($ticketID);
+        // return view('tickets.show', compact('ticket'));
+
+        $ticket = Ticket::with('solutions.user', 'solutions.screenshots')->findOrFail($ticketID);
+        
+        return view('tickets.show', compact('ticket'));
     }
 
     public function edit(Request $request)

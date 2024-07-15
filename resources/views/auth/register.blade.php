@@ -6,7 +6,8 @@
 </head>
 
 <body>
-    <div class="flex h-screen w-full items-center justify-center bg-gray-900 bg-cover bg-no-repeat" style="background-image:url({{ asset('img/zelij.jpg') }})">
+    @include('layouts.sidebar')
+    <div class="lg:ml-64 flex h-screen items-center justify-center bg-gray-900 bg-cover bg-no-repeat" style="background-image: url('/img/zelij.jpg');">
         <div class="rounded-xl bg-white bg-opacity-50 px-16 py-10 shadow-lg backdrop-blur-md max-sm:px-8">
             <div class="flex text-black">
                 <div class="mb-8 flex flex-col items-center gap-4">
@@ -95,7 +96,7 @@
                             <div class="mb-4 text-lg">
                                 <div class="py-2">Role: </div>
                                 <select name="role" id="role" class="w-full rounded-3xl border-none bg-[#DCD0C4] px-6 py-2 text-start text-inherit placeholder-grey-500 shadow-lg outline-none backdrop-blur-md" @error('role') border-red-500 @enderror">
-                                    <option selected disabled>Choisissez votre role</option>
+                                    <option selected disabled>Choisissez un role</option>
                                     <option value="Niv 1">Niv 1</option>
                                     <option value="Niv 2">Niv 2</option>
                                     <option value="Utilisateur standard">Utilisateur standard</option>
@@ -111,7 +112,7 @@
 
                         <div class="px-4 pb-2 pt-4 flex justify-center">
                             <button type="submit" class="rounded-3xl bg-[#253743] px-10 py-2 text-white shadow-xl hover:bg-white hover:text-[#253743] ">
-                                Register
+                                AJOUTER UTILISATEUR
                             </button>
                         </div>
                     </form>

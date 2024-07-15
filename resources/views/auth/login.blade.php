@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div class="flex h-screen w-full items-center justify-center bg-gray-900 bg-cover bg-no-repeat" style="background-image:url({{ asset('img/zelij.jpg') }})">
+    <div class="flex h-screen w-full items-center justify-center bg-gray-900 bg-cover bg-no-repeat" style="background-image: url('/img/zelij.jpg');">
         <div class="rounded-3xl bg-white bg-opacity-50 px-16 py-10 shadow-lg backdrop-blur-md max-sm:px-8">
             <div class="flex text-black">
                 <div class="mb-8 flex flex-col items-center gap-4 ">
@@ -55,9 +55,9 @@
                             <input class="rounded-3xl border-none bg-[#DCD0C4] px-6 py-2 text-start text-inherit placeholder-grey-500 shadow-lg outline-none backdrop-blur-md" type="password" name="password" id="password" placeholder="Entrez votre password" />
                         </div>
 
-                        <div class="text-right text-gray-400 hover:underline hover:text-gray-100">
+                        <!-- <div class="text-right text-gray-400 hover:underline hover:text-gray-100">
                             <a href="{{ route('register') }}">Créer un compte</a>
-                        </div>
+                        </div> -->
                         <div class="mt-8 flex justify-center text-lg">
                             <button type="submit" class="rounded-3xl bg-[#253743] px-10 py-2 text-white shadow-xl hover:bg-white hover:text-[#253743] ">Se Connecter</button>
                         </div>
