@@ -18,13 +18,15 @@
 
         <!-- notifications -->
         <div class="space-x-4">
-            <button>
+            <!-- <button>
                 <i class="fas fa-bell text-[#9B4846] text-lg"></i>
-            </button>
+            </button> -->
 
             <!-- profile -->
             <button>
-                <i class="fas fa-user text-[#9B4846] text-lg"></i>
+                <a href="{{ route('profile.showProfile')}}">
+                    <i class="fas fa-user text-[#9B4846] text-lg"></i>
+                </a>
             </button>
         </div>
     </div>

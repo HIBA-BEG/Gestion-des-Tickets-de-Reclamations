@@ -98,7 +98,6 @@
                                 @endif
                             </div>
 
-
                             <p>ID: {{ $solution->ticket_id }}</p>
                             <p class="text-sm">{{ $solution->created_at }}</p>
                         </div>
@@ -146,8 +145,6 @@
                     </form>
                     @endif
                 </div>
-
-
 
             </div>
         </div>

@@ -56,25 +56,25 @@ class SolutionController extends Controller
         return redirect()->back()->with('success', 'Submitted successfully!');
     }
 
-    public function update(Request $request, $solutionId)
-    {
-        $request->validate([
-            'solution' => 'required|string',
-            'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+    // public function update(Request $request, $solutionId)
+    // {
+    //     $request->validate([
+    //         'solution' => 'required|string',
+    //         'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    //     ]);
 
-        $solution = Solution::findOrFail($solutionId);
+    //     $solution = Solution::findOrFail($solutionId);
 
-        $screenshotPath = $solution->screenshot;
-        if ($request->hasFile('screenshot')) {
-            $screenshotPath = $request->file('screenshot')->store('solution_screenshots', 'public');
-        }
+    //     $screenshotPath = $solution->screenshot;
+    //     if ($request->hasFile('screenshot')) {
+    //         $screenshotPath = $request->file('screenshot')->store('solution_screenshots', 'public');
+    //     }
 
-        $solution->update([
-            'solution' => $request->solution,
-            'screenshot' => $screenshotPath,
-        ]);
+    //     $solution->update([
+    //         'solution' => $request->solution,
+    //         'screenshot' => $screenshotPath,
+    //     ]);
 
-        return redirect()->route('tickets.show', $solution->ticket->id)->with('status', 'Solution updated successfully.');
-    }
+    //     return redirect()->route('tickets.show', $solution->ticket->id)->with('status', 'Solution updated successfully.');
+    // }
 }

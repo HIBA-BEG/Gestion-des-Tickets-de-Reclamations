@@ -8,6 +8,7 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\GuestTicketController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\SolutionController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -67,8 +68,8 @@ Route::get('/ticket/{tracking_code}', [GuestTicketController::class, 'status'])-
 Route::post('tickets/{ticketId}/solution', [SolutionController::class, 'store'])->name('solution.store');
 Route::put('solutions/{solutionId}', [SolutionController::class, 'update'])->name('solution.update');
 
-// Route::get('/test-email', function () {
-//     $ticket = App\Models\Ticket::first(); // Assuming you have at least one ticket in your database
-//     Mail::to('eytchcreations@gmail.com')->send(new App\Mail\TicketSubmitted($ticket)); // Replace with a real email
-//     return 'Email sent!';
-// });
+
+Route::get('/MonProfile', [ProfileController::class, 'profileView'])->name('profile.showProfile');
+// Route::get('/CompleteprofileAssociation', [ProfileController::class, 'storeAssociationView'])->name('profile.CompleteAssociation');
+// Route::post('/CompleteprofileAssociation', [ProfileController::class, 'storeAssociation'])->name('profile.storeAssociation');
+// Route::get('/ShowProfileAssociation', [ProfileController::class, 'ShowProfileAssociation'])->name('profile.ShowProfileAssociation');

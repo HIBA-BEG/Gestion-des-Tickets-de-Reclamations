@@ -6,11 +6,11 @@
 <body class="bg-[#F7F5F4] bg-contain" style="background-image:  url('/img/zelij.jpg');">
     @include('layouts.sidebar')
     <div class="lg:ml-64 mx-auto py-20 px-10">
-    <div class="lg:mx-8 py-4 mt-10">
-                <h2 class="font-semibold text-center tracking-tight text-black sm:text-4xl text-3xl">
-                    Tous les tickets:
-                </h2>
-            </div>
+        <div class="lg:mx-8 py-4 mt-10">
+            <h2 class="font-semibold text-center tracking-tight text-black sm:text-4xl text-3xl">
+                Tous les tickets:
+            </h2>
+        </div>
         <!-- <h1 class="text-2xl font-bold mb-6">All Tickets</h1> -->
         <div id="alertDiv" class="my-5">
             @if ($errors->any())
