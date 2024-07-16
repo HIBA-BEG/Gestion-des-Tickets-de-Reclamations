@@ -23,6 +23,7 @@ class Ticket extends Model
         'guest_name',
         'guest_email',
         'assigned_to',
+        'archived',
     ];
 
     public function user()

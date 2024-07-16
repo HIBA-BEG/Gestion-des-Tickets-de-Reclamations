@@ -10,29 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
-    // public function index()
-    // {
-    //     $tickets = Ticket::with('user')->get();
-    //     // $user = Auth::id();
-    //     // $tickets = DB::table('tickets')
-    //     //     ->join('users', 'users.id', '=', 'tickets.user_id')
-    //     //     ->where('tickets.user_id', $user)
-    //     //     ->get();
-    //     return view('tickets.index', compact('tickets'));
-    // }
-
-    // public function index()
-    // {
-    //     $tickets = Ticket::with('assignedUser')->get();
-    //     $eligibleUsers = User::whereIn('role', ['Responsable', 'Niv 1', 'Niv 2'])->get();
-    //     return view('tickets.index', compact('tickets', 'eligibleUsers'));
-    // }
     public function index()
     {
         if (Auth::user()->role === 'Responsable') {
-            $tickets = Ticket::with('assignedUser')->get();
+            $tickets = Ticket::with('assignedUser')->where('archived', false)->get();
         } else {
-            $tickets = Ticket::where('assigned_to', Auth::id())->with('assignedUser')->get();
+            $tickets = Ticket::where('assigned_to', Auth::id())->with('assignedUser')->where('archived', false)->get();
         }
         $eligibleUsers = User::whereIn('role', ['Responsable', 'Niv 1', 'Niv 2', 'Utilisateur standard'])->get();
         return view('tickets.index', compact('tickets', 'eligibleUsers'));
@@ -53,15 +36,34 @@ class TicketController extends Controller
         return response()->json(['success' => true, 'message' => 'Ticket assigné avec succès.']);
     }
 
-    
+
     public function showOne($ticketID)
     {
-        // $ticket  = Ticket::with('screenshots')->findOrFail($ticketID);
-        // return view('tickets.show', compact('ticket'));
-
         $ticket = Ticket::with('solutions.user', 'solutions.screenshots')->findOrFail($ticketID);
-        
+
         return view('tickets.show', compact('ticket'));
+    }
+
+    public function archive(Ticket $ticket)
+    {
+        $ticket->archived = true;
+        $ticket->save();
+
+        return redirect()->back()->with('success', 'Ticket archived successfully');
+    }
+
+    public function archivedIndex()
+    {
+        $archivedTickets = Ticket::where('archived', true)->get();
+        return view('tickets.archived', compact('archivedTickets'));
+    }
+
+    public function unarchive(Ticket $ticket)
+    {
+        $ticket->archived = false;
+        $ticket->save();
+
+        return redirect()->back()->with('success', 'Ticket unarchived successfully');
     }
 
     public function edit(Request $request)

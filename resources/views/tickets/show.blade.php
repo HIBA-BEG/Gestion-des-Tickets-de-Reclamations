@@ -6,19 +6,19 @@
 <body class="bg-contain" style="background-image:  url('/img/zelij.jpg');">
     @guest
     @include('layouts.navbar')
-    <div class="flex flex-col items-center m-auto">
+    <div class="flex flex-col px-10 mx-auto">
         @endguest
 
         @auth
         @include('layouts.sidebar')
-        <div class="lg:ml-64 py-20 px-10 flex flex-col mx-auto">
+        <div class="lg:ml-64 py-20 px-10 flex flex-col mx-auto ">
             @endauth
             <div class="lg:mx-8 py-4 mt-10 text-center">
                 <h2 class="font-semibold tracking-tight text-black sm:text-4xl text-3xl">
                     Details du Ticket:
                 </h2>
             </div>
-            <div class="p-6 m-10 bg-[hsla(0,0%,100%,0.75)] rounded-lg shadow-md">
+            <div class="p-6 m-10 bg-[hsla(0,0%,100%,0.75)] rounded-lg shadow-md ">
                 <div class="mb-6">
                     <!-- <h2 class="text-2xl font-bold mb-4">Ticket Details</h2> -->
 
@@ -92,7 +92,7 @@
                         <div class="w-1/4 p-4 bg-[#9b47468c]">
                             <div>
                                 @if(is_null($solution->submitted_by))
-                                <p class="font-semibold text-gray-800">{{ $solution->ticket->guest_name }}</p>
+                                <p class="font-semibold text-gray-800"> Guest: {{ $solution->ticket->guest_name }}</p>
                                 @else
                                 <p class="font-semibold text-gray-800">{{ $solution->user->firstname }} {{ $solution->user->lastname }}</p>
                                 @endif
@@ -117,12 +117,13 @@
                     <form action="{{ route('solution.store', $ticket->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
-                            <label for="solution" class="block text-sm font-medium text-gray-700">Solution</label>
+                            <label for="solution" class="text-2xl font-bold mb-4">Solution</label>
                             <textarea name="solution" id="solution" rows="3" class="mt-1 p-4 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required></textarea>
                         </div>
                         <div class="mb-4">
-                            <label for="screenshots" class="block text-sm font-medium text-gray-700">Screenshots</label>
-                            <input type="file" name="screenshots[]" id="screenshots" multiple class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <label for="screenshots" class="text-2xl font-bold mb-4">Screenshots</label>
+                            <input type="file" name="screenshots[]" id="screenshots" multiple aria-describedby="file_input_help" class="block w-full text-sm border border-gray-300 rounded-lg cursor-pointer file:me-3 file:cursor-pointer file:overflow-hidden file:border-0 file:bg-[#9b47468c] file:px-3  file:py-[0.32rem]">
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
                         </div>
                         <div class="flex justify-center">
                             <button type="submit" class="bg-[#253743] hover:bg-[#3e5f77] text-white px-4 py-2 font-semibold rounded-full">Ajouter une solution</button>
@@ -132,13 +133,15 @@
                     <form action="{{ route('solution.store', $ticket->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
-                            <label for="solution" class="block text-sm font-medium text-gray-700">Solution</label>
+                            <label for="solution" class="text-2xl font-bold mb-4">Solution</label>
                             <textarea name="solution" id="solution" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required></textarea>
                         </div>
                         <div class="mb-4">
-                            <label for="screenshots" class="block text-sm font-medium text-gray-700">Screenshots</label>
-                            <input type="file" name="screenshots[]" id="screenshots" multiple class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <label for="screenshots" class="text-2xl font-bold mb-4">Screenshots</label>
+                            <input type="file" name="screenshots[]" id="screenshots" multiple aria-describedby="file_input_help" class="block w-full text-sm border border-gray-300 rounded-lg cursor-pointer file:me-3 file:cursor-pointer file:overflow-hidden file:border-0 file:bg-[#9b47468c] file:px-3  file:py-[0.32rem]">
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
                         </div>
+
                         <div class="flex justify-center">
                             <button type="submit" class="bg-[#253743] hover:bg-[#3e5f77] text-white px-4 py-2 font-semibold rounded-full">Ajouter une solution</button>
                         </div>

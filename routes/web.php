@@ -9,6 +9,7 @@ use App\Http\Controllers\GuestTicketController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\SolutionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -48,6 +49,10 @@ Route::get('/UnTicket/{ticketID}', [TicketController::class, 'showOne'])->name('
 Route::patch('/updateTicket/{id}', [TicketController::class, 'edit'])->name('editTicket');
 Route::delete('/Tickets/{ticket}', [TicketController::class, 'destroy'])->name('destroyTicket');
 
+Route::post('/tickets/{ticket}/archive', [TicketController::class, 'archive'])->name('tickets.archive');
+Route::get('/tickets/archived', [TicketController::class, 'archivedIndex'])->name('tickets.archived');
+Route::post('/tickets/{ticket}/unarchive', [TicketController::class, 'unarchive'])->name('tickets.unarchive');
+
 Route::patch('/tickets/{ticket}/assign', [TicketController::class, 'assignTicket'])->name('assignTicket')->middleware('can:assign,ticket');
 
 // Route::get('/statistics', [StatisticsController::class, 'getStatistics']);
@@ -73,3 +78,8 @@ Route::get('/MonProfile', [ProfileController::class, 'profileView'])->name('prof
 // Route::get('/CompleteprofileAssociation', [ProfileController::class, 'storeAssociationView'])->name('profile.CompleteAssociation');
 // Route::post('/CompleteprofileAssociation', [ProfileController::class, 'storeAssociation'])->name('profile.storeAssociation');
 // Route::get('/ShowProfileAssociation', [ProfileController::class, 'ShowProfileAssociation'])->name('profile.ShowProfileAssociation');
+
+// All Users (Responsable)
+Route::get('/TousLesUtilisateurs', [UsersController::class, 'all'])->name('AllUsers');
+Route::patch('/users/{user}/update-role', [UsersController::class, 'updateRole'])->name('users.updateRole');
+Route::patch('/users/{user}/toggle-archive', [UsersController::class, 'toggleArchive'])->name('users.toggleArchive');

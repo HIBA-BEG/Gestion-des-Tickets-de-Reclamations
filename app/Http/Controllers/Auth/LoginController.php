@@ -27,8 +27,10 @@ class LoginController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
-
-        if ($user->role == 'Niv 1' || $user->role == 'Niv 2') {
+        if ($user->archived == 1) {
+            Auth::logout();
+            return redirect()->route('login')->with('error', "Votre compte est actuellement archivé.");
+        } else if ($user->role == 'Niv 1' || $user->role == 'Niv 2') {
             return redirect()->route('indexTickets');
         } else if ($user->role == 'Utilisateur standard') {
             return redirect()->route('indexTickets');
