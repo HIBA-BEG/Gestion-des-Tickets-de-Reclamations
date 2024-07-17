@@ -37,7 +37,7 @@
                 <h2 class="font-semibold text-xl leading-6 my-3 text-center">Tickets by Systeme</h2>
                 <ul>
                     @foreach($stats['tickets_by_system'] as $system)
-                    <li><span class="font-medium">{{ $system->systeme }}:</span> <span class="text-xl font-bold">{{ $system->total }}</span></li>
+                    <li><span class="font-medium text-xl">{{ $system->systeme }}:</span> <span class="text-xl font-bold">{{ $system->total }}</span></li>
                     @endforeach
                 </ul>
             </div>

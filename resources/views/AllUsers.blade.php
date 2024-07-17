@@ -41,7 +41,7 @@
         <div class="m-auto overflow-x-auto">
             <table class="w-full bg-white border border-gray-200">
                 <thead>
-                    <tr class="bg-[#DCD0C4] text-gray-600 uppercase text-sm leading-normal">
+                    <tr class="bg-[#DCD0C4] text-gray-600 uppercase leading-normal">
                         <th class="py-2 px-6 text-center">Actions</th>
                         <th class="py-2 px-4 text-left">ID</th>
                         <th class="py-2 px-4 text-left">Nom</th>
@@ -51,7 +51,7 @@
                         <th class="py-3 px-4 text-center">Date de création</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-600 text-sm font-light">
+                <tbody class="text-gray-600 text-base font-light">
                     @foreach($users as $user)
                     <tr class="border-b border-gray-200 hover:bg-gray-100">
 

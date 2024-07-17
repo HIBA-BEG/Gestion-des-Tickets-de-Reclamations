@@ -44,6 +44,18 @@ class TicketController extends Controller
         return view('tickets.show', compact('ticket'));
     }
 
+    public function updateStatus(Request $request, Ticket $ticket)
+    {
+        $validatedData = $request->validate([
+            'status' => 'required|in:Ouvert,En cours,Résolu,Fermé',
+        ]);
+
+        $ticket->etat = $validatedData['status'];
+        $ticket->save();
+
+        return response()->json(['success' => true]);
+    }
+
     public function archive(Ticket $ticket)
     {
         $ticket->archived = true;

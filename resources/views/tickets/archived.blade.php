@@ -7,7 +7,7 @@
     @include('layouts.sidebar')
     <div class="lg:ml-64 mx-auto py-20 px-10">
         <div class="lg:mx-8 py-4 mt-10">
-            <h2 class="font-semibold text-center tracking-tight text-black sm:text-4xl text-3xl">
+            <h2 class="font-semibold text-center tracking-tight text-black sm:text-3xl text-4xl">
                 Archived Tickets:
             </h2>
         </div>
@@ -27,10 +27,10 @@
             </div>
         </div>
         @else
-        <div class="m-auto overflow-x-auto">
+        <div class="m-auto overflow-x-auto ">
             <table class="w-full bg-white border border-gray-200">
                 <thead>
-                    <tr class="bg-[#DCD0C4] text-gray-600 uppercase text-sm leading-normal">
+                    <tr class="bg-[#DCD0C4] text-gray-600 uppercase leading-normal">
                         <th class="py-2 px-6 text-center">Actions</th>
                         <th class="py-2 px-4 text-left">ID</th>
                         <th class="py-2 px-4 text-left">Categorie</th>
@@ -43,7 +43,7 @@
                         <th class="py-3 px-4 text-center">Date de soumission</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-600 text-sm font-light">
+                <tbody class="text-gray-600 text-base font-light">
                     @foreach($archivedTickets as $ticket)
                     <tr class="border-b border-gray-200 hover:bg-gray-100">
                         <td class="py-3 px-6 text-center">

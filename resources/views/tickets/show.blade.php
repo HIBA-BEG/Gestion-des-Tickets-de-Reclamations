@@ -11,41 +11,48 @@
 
         @auth
         @include('layouts.sidebar')
-        <div class="lg:ml-64 py-20 px-10 flex flex-col mx-auto ">
+        <div class="lg:ml-64 py-20 px-10 flex flex-col mx-auto text-xl">
             @endauth
             <div class="lg:mx-8 py-4 mt-10 text-center">
                 <h2 class="font-semibold tracking-tight text-black sm:text-4xl text-3xl">
                     Details du Ticket:
                 </h2>
             </div>
-            <div class="p-6 m-10 bg-[hsla(0,0%,100%,0.75)] rounded-lg shadow-md ">
+            <div class="p-6 m-10  bg-[hsla(0,0%,100%,0.75)] rounded-lg shadow-md ">
                 <div class="mb-6">
                     <!-- <h2 class="text-2xl font-bold mb-4">Ticket Details</h2> -->
 
                     <div class="grid grid-cols-2 gap-6">
                         <div>
-                            <p><strong>Identifiant:</strong> {{ $ticket->id }}</p>
-                            <p><strong>Projet:</strong> {{ $ticket->systeme }}</p>
-                            <p><strong>Rapporteur:</strong> {{ $ticket->name }}</p>
-                            <p><strong>Priorité:</strong> {{ $ticket->priorite }}</p>
-                            <p><strong>Statut:</strong> {{ $ticket->etat }}</p>
-                            <p><strong>Résumé:</strong> {{ $ticket->title }}</p>
+                            <p class="p-1"><strong>Identifiant:</strong> {{ $ticket->id }}</p>
+                            <p class="p-1"><strong>Projet:</strong> {{ $ticket->systeme }}</p>
+                            <p class="p-1"><strong>Rapporteur:</strong> {{ $ticket->guest_name }}</p>
+                            <p class="p-1"><strong>Priorité:</strong> {{ $ticket->priorite }}</p>
+                            <p class="p-1"><strong>Résumé:</strong> {{ $ticket->title }}</p>
                         </div>
                         <div>
-                            <p><strong>Catégorie:</strong> {{ $ticket->categorie }}</p>
-                            <p><strong>Visibilité:</strong> {{ $ticket->visibility }}</p>
-                            <p><strong>Date de soumission:</strong> {{ $ticket->created_at }}</p>
-                            <p><strong>Impact:</strong> {{ $ticket->impact }}</p>
+                            <p class="p-1"><strong>Catégorie:</strong> {{ $ticket->categorie }}</p>
+                            <p class="p-1"><strong>Date de soumission:</strong> {{ $ticket->created_at }}</p>
+                            <p class="p-1"><strong>Impact:</strong> {{ $ticket->impact }}</p>
                             <!-- <p><strong>Résolution:</strong> {{ $ticket->resolution }}</p> -->
-                            <p><strong>Reproductibilité:</strong> {{ $ticket->reproductibilite }}</p>
+                            <p class="p-1"><strong>Reproductibilité:</strong> {{ $ticket->reproductibilite }}</p>
+                            <p class="p-1">
+                                <strong>Statut:</strong>
+                                <select id="ticketStatus" class="whitespace-nowrap rounded-3xl bg-[#F7F5F4] py-2 px-10 text-center text-inherit shadow-lg">
+                                    <option value="Ouvert" {{ $ticket->etat == 'Ouvert' ? 'selected' : '' }}>Ouvert</option>
+                                    <option value="En cours" {{ $ticket->etat == 'En cours' ? 'selected' : '' }}>En cours</option>
+                                    <option value="Résolu" {{ $ticket->etat == 'Résolu' ? 'selected' : '' }}>Résolu</option>
+                                    <option value="Fermé" {{ $ticket->etat == 'Fermé' ? 'selected' : '' }}>Fermé</option>
+                                </select>
+                            </p>
                         </div>
                     </div>
                     <div class="mt-6">
-                        <h3 class="text-xl font-semibold">Description</h3>
+                        <h3 class="text-3xl font-bold">Description</h3>
                         <p class="border p-4 rounded-md mt-2">{{ $ticket->description }}</p>
                     </div>
                     <div class="mt-6">
-                        <h3 class="text-xl font-semibold">Screenshots</h3>
+                        <h3 class="text-3xl font-bold">Screenshots</h3>
                         <div class="border p-4 rounded-md mt-2 flex gap-5">
                             @foreach ($ticket->screenshots as $screenshot)
                             <img src="{{ $screenshot->url }}" alt="Screenshot" class="mb-4 h-96">
@@ -155,6 +162,32 @@
             setTimeout(function() {
                 document.getElementById('alertDiv').style.display = 'none';
             }, 4000); // 4000 milliseconds 
+
+            $(document).ready(function() {
+                $('#ticketStatus').change(function() {
+                    var newStatus = $(this).val();
+                    var ticketId = {{ $ticket->id }};
+
+                    $.ajax({
+                        url: '/tickets/' + ticketId + '/update-status',
+                        method: 'PATCH',
+                        data: {
+                            status: newStatus,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                alert('Statut du ticket mis à jour avec succès');
+                            } else {
+                                alert('Échec de la mise à jour du statut du ticket');
+                            }
+                        },
+                        error: function() {
+                            alert('Une erreur s est produite lors de la mise à jour du statut du ticket');
+                        }
+                    });
+                });
+            });
         </script>
 </body>
 

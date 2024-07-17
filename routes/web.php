@@ -48,6 +48,8 @@ Route::get('ToutsLesTickets', [TicketController::class, 'index'])->name('indexTi
 Route::get('/UnTicket/{ticketID}', [TicketController::class, 'showOne'])->name('oneTicket');
 Route::patch('/updateTicket/{id}', [TicketController::class, 'edit'])->name('editTicket');
 Route::delete('/Tickets/{ticket}', [TicketController::class, 'destroy'])->name('destroyTicket');
+Route::patch('/tickets/{ticket}/update-status', [TicketController::class, 'updateStatus'])->name('tickets.updateStatus');
+
 
 Route::post('/tickets/{ticket}/archive', [TicketController::class, 'archive'])->name('tickets.archive');
 Route::get('/tickets/archived', [TicketController::class, 'archivedIndex'])->name('tickets.archived');

@@ -50,7 +50,7 @@
 
             <div class="m-10 bg-[hsla(0,0%,100%,0.75)] shadow-md rounded-lg p-6">
                 <div class="flex justify-between items-center border-b pb-4 mb-4">
-                    <h2 class="text-lg font-semibold">Saisir les détails du problème</h2>
+                    <h2 class="text-xl font-semibold">Saisir les détails du problème</h2>
                     <!-- <div class="text-sm text-gray-600">smahane.elassri</div> -->
                 </div>
                 <form action="{{ route('guest_ticket.store') }}" method="POST" enctype="multipart/form-data">
