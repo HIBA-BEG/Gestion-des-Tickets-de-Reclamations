@@ -57,6 +57,7 @@
                         <th class="py-3 px-4 text-left">Titre</th>
                         <th class="py-3 px-4 text-center">statut</th>
                         <th class="py-3 px-4 text-center">Assigné à</th>
+
                         <th class="py-3 px-4 text-center">Système</th>
                         <th class="py-3 px-4 text-left">Description</th>
                         <th class="py-3 px-4 text-center">Reproductibilité</th>
@@ -118,30 +119,43 @@
                                 @endforeach
                             </select>
                             @else
+                            @if($ticket->assigned_to)
                             {{ $ticket->assignedUser ? $ticket->assignedUser->firstname . ' ' . $ticket->assignedUser->lastname : 'Unassigned' }}
+                            @else
+                            @php
+                            $assignedSystems = Auth::user()->assigned_systems;
+                            if (!is_array($assignedSystems)) {
+                            $assignedSystems = json_decode($assignedSystems, true) ?? [];
+                            }
+                            @endphp
+
+                            @if(in_array($ticket->systeme, $assignedSystems))
+                            <button onclick="assignTicket({{ $ticket->id }}, {{ Auth::id() }})">Assign to me</button>
+                            @else
+                            Unassigned
+                            @endif
+                            @endif
                             @endif
                         </td>
 
-                        <td class="py-3 px-4 text-center text-red-600 font-semibold whitespace-nowrap">{{ $ticket->systeme }}</td>
+                        <!-- <td class="py-3 px-4 text-center text-red-600 font-semibold whitespace-nowrap">{{ $ticket->systeme }}</td> -->
+                        <td>
+                            <select name="systeme" id="systeme_{{ $ticket->id }}" class="form-select" onchange="updateSystem({{ $ticket->id }}, this.value)">
+                                @foreach (config('constants.all_systems') as $system)
+                                <option value="{{ $system }}" {{ $ticket->systeme == $system ? 'selected' : '' }}>
+                                    {{ $system }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </td>
                         <td class="py-3 px-4 text-left">{{ $ticket->description }}</td>
                         <td class="py-3 px-4 text-center">
                             <span class="bg-blue-200 text-green-600 py-1 px-3 rounded-full text-xs whitespace-nowrap">{{ $ticket->reproductibilite }}</span>
                         </td>
                         <td class="py-3 px-4 text-center font-semibold whitespace-nowrap">{{ $ticket->created_at }}</td>
                         <td class="py-3 px-4 text-center font-semibold whitespace-nowrap">{{ $ticket->updated_at }}</td>
-                        <!-- <td class="py-3 px-4 text-center">
-                            @if ($ticket->user)
-                            {{ $ticket->user->firstname }} {{ $ticket->user->lastname }}
-                            @else
-                            <div class="font-semibold underline">
-                                {{ $ticket->guest_name }}
-                            </div>
-                            @endif
-                        </td> -->
-
                     </tr>
                     @endforeach
-                    <!-- End example row -->
                 </tbody>
             </table>
         </div>
@@ -152,29 +166,7 @@
             document.getElementById('alertDiv').style.display = 'none';
         }, 4000); // 4000 milliseconds 
 
-        // function assignTicket(ticketId, userId) {
-        //     fetch(`/tickets/${ticketId}/assign`, {
-        //             method: 'PATCH',
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        //             },
-        //             body: JSON.stringify({
-        //                 assigned_to: userId
-        //             })
-        //         })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             if (data.success) {
-        //                 console.log('Ticket assigned successfully');
-        //             } else {
-        //                 console.error('Failed to assign ticket');
-        //             }
-        //         })
-        //         .catch(error => console.error('Error:', error));
-        // }
-
-        function assignTicket(ticketId, userId) {
+        function assignTicketTo(ticketId, userId) {
             fetch(`/tickets/${ticketId}/assign`, {
                     method: 'PATCH',
                     headers: {
@@ -198,6 +190,52 @@
                     console.error('Error:', error);
                     alert('An error occurred while assigning the ticket');
                 });
+        }
+
+
+        function assignTicket(ticketId, userId) {
+            console.log('Assigning ticket', ticketId, 'to user', userId);
+            $.ajax({
+                url: `/tickets/${ticketId}/assign`,
+                type: 'POST',
+                data: JSON.stringify({
+                    user_id: userId
+                }),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log('Success:', response);
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    console.log('Response:', xhr.responseText);
+                }
+            });
+        }
+
+        function updateSystem(ticketId, newSystem) {
+            $.ajax({
+                url: `/tickets/${ticketId}/update-system`,
+                type: 'PATCH',
+                data: JSON.stringify({
+                    systeme: newSystem
+                }),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log('Success:', response);
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    console.log('Response:', xhr.responseText);
+                }
+            });
         }
     </script>
 </body>

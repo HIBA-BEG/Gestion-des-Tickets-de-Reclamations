@@ -6,7 +6,9 @@
 </head>
 
 <body>
+    @if($userCount > 0)
     @include('layouts.sidebar')
+    @endif
     <div class="lg:ml-64 flex h-screen items-center justify-center bg-gray-900 bg-cover bg-no-repeat" style="background-image: url('/img/zelij.jpg');">
         <div class="rounded-xl bg-white bg-opacity-50 px-16 py-10 shadow-lg backdrop-blur-md max-sm:px-8">
             <div class="flex text-black">
@@ -95,30 +97,28 @@
                         <div class="flex justify-center">
                             <div class="mb-4 text-lg">
                                 <div class="py-2">Role: </div>
+                                @if($userCount == 0)
+                                <input type="hidden" name="role" value="Responsable">
+                                <span>Responsable</span>
+                                @else
                                 <select name="role" id="role" class="w-full rounded-3xl border-none bg-[#DCD0C4] px-6 py-2 text-start text-inherit placeholder-grey-500 shadow-lg outline-none backdrop-blur-md" @error('role') border-red-500 @enderror">
                                     <option selected disabled>Choisissez un role</option>
                                     <option value="Niv 1">Niv 1</option>
                                     <option value="Niv 2">Niv 2</option>
                                     <option value="Utilisateur standard">Utilisateur standard</option>
                                 </select>
+                                @endif
                                 @error('role')
                                 <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
-                        <!-- <div class="text-right text-gray-400 hover:underline hover:text-gray-100">
-                            <a href="#">Forgot your password?</a>
-                        </div> -->
-
                         <div class="px-4 pb-2 pt-4 flex justify-center">
                             <button type="submit" class="rounded-3xl bg-[#253743] px-10 py-2 text-white shadow-xl hover:bg-white hover:text-[#253743] ">
                                 AJOUTER UTILISATEUR
                             </button>
                         </div>
                     </form>
-                    <!-- <div class="flex justify-between text-right text-gray-400 hover:underline hover:text-gray-100">
-                        <a href="{{ route('login') }}">You already have an account? log in</a>
-                    </div> -->
                 </div>
             </div>
         </div>

@@ -24,7 +24,9 @@ class User extends Authenticatable
         'password',
         'role',
         'archived',
+        'assigned_systems',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -43,8 +45,26 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'assigned_systems' => 'array',
         'password' => 'hashed',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $systemsByRole = [
+                'Niv 1' => ['SQCA', 'BDT', 'SIGC'],
+                'Niv 2' => ['SGIA', 'Docflow', 'INSAF', 'OBTP'],
+                'Utilisateur standard' => ['Ma Route'],
+                'Responsable' => ['SQCA', 'BDT', 'SIGC', 'SGIA', 'Docflow', 'Ma Route', 'INSAF', 'OBTP'],
+            ];
+
+            $user->assigned_systems = $systemsByRole[$user->role] ?? [];
+        });
+    }
+
 
     public function tickets()
     {

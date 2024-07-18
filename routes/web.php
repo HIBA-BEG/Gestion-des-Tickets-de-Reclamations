@@ -57,6 +57,9 @@ Route::post('/tickets/{ticket}/unarchive', [TicketController::class, 'unarchive'
 
 Route::patch('/tickets/{ticket}/assign', [TicketController::class, 'assignTicket'])->name('assignTicket')->middleware('can:assign,ticket');
 
+Route::post('/tickets/{ticket}/assign', [TicketController::class, 'assign']);
+
+Route::patch('/tickets/{ticket}/update-system', [TicketController::class, 'updateSystem'])->name('tickets.updateSystem');
 // Route::get('/statistics', [StatisticsController::class, 'getStatistics']);
 Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
 

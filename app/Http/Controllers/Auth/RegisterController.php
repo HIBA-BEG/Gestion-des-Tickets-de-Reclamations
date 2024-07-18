@@ -16,9 +16,11 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 
 class RegisterController extends Controller
 {
+    
     public function create(): View
     {
-        return view('auth.register');
+        $userCount = User::count();
+        return view('auth.register', compact('userCount'));
     }
     public function store(Request $request): RedirectResponse
     {
@@ -36,22 +38,24 @@ class RegisterController extends Controller
             'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role
+            'role' => $request->role,
+            'assigned_systems' => $this->getAssignedSystems($request->role),
         ]);
 
         event(new Registered($user));
 
-        // Auth::login($user);
-
-        // if ($user->role == 'Niv 1' || $user->role == 'Niv 2' || $user->role == 'Utilisateur standard') {
-        //     if (auth()->user()) {
-        //         return redirect()->route('indexTickets');
-        //     } else if ($user->role == 'Responsable') {
-        //         return redirect()->route('indexTickets');
-        //     } else {
-        //         return redirect(RouteServiceProvider::HOME);
-        //     }
-        // }
         return redirect()->back()->with('success', 'Utilisateur ajouté avec succès');
+    }
+
+    protected function getAssignedSystems($role)
+    {
+        $systemsByRole = [
+            'Niv 1' => ['SQCA', 'BDT', 'SIGC'],
+            'Niv 2' => ['SGIA', 'Docflow', 'INSAF', 'OBTP'],
+            'Utilisateur standard' => ['Ma Route'],
+            'Responsable' => ['SQCA', 'BDT', 'SIGC', 'SGIA', 'Docflow', 'Ma Route', 'INSAF', 'OBTP'],
+        ];
+
+        return $systemsByRole[$role] ?? [];
     }
 }

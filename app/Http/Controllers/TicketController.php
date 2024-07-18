@@ -10,32 +10,97 @@ use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
+    // public function index()
+    // {
+    //     if (Auth::user()->role === 'Responsable') {
+    //         $tickets = Ticket::with('assignedUser')->where('archived', false)->get();
+    //     } else {
+    //         $tickets = Ticket::where('assigned_to', Auth::id())->with('assignedUser')->where('archived', false)->get();
+    //     }
+    //     $eligibleUsers = User::whereIn('role', ['Responsable', 'Niv 1', 'Niv 2', 'Utilisateur standard'])->get();
+    //     return view('tickets.index', compact('tickets', 'eligibleUsers'));
+    // }
+
+
+    // public function index()
+    // {
+    //     $user = auth()->user();
+
+    //     $query = Ticket::query();
+
+    //     if ($user->role !== 'Responsable') {
+    //         $query->whereIn('systeme', $user->assigned_systems);
+    //     }
+
+    //     $tickets = $query->get();
+
+    //     return view('tickets.index', compact('tickets'));
+    // }
     public function index()
     {
-        if (Auth::user()->role === 'Responsable') {
-            $tickets = Ticket::with('assignedUser')->where('archived', false)->get();
-        } else {
-            $tickets = Ticket::where('assigned_to', Auth::id())->with('assignedUser')->where('archived', false)->get();
+        $user = Auth::user();
+        $tickets = Ticket::query();
+
+        if ($user->role !== 'Responsable') {
+            $assignedSystems = $user->assigned_systems;
+
+            if (!is_array($assignedSystems)) {
+                $assignedSystems = json_decode($assignedSystems, true);
+            }
+
+            if (!is_array($assignedSystems)) {
+                $assignedSystems = [];
+            }
+
+            $tickets->whereIn('systeme', $assignedSystems);
         }
-        $eligibleUsers = User::whereIn('role', ['Responsable', 'Niv 1', 'Niv 2', 'Utilisateur standard'])->get();
+
+        $tickets = $tickets->get();
+        $eligibleUsers = User::where('role', '!=', 'Utilisateur standard')->get();
+
         return view('tickets.index', compact('tickets', 'eligibleUsers'));
     }
-
-
-
+    
     public function assignTicket(Request $request, Ticket $ticket)
     {
-        $request->validate([
-            'assigned_to' => 'required|exists:users,id',
-        ]);
+        if (auth()->user()->role !== 'Responsable') {
+            return back()->with('error', 'Only Responsable can assign tickets to others.');
+        }
 
-        $ticket->update([
-            'assigned_to' => $request->assigned_to,
-        ]);
+        $ticket->assigned_to = $request->user_id;
+        $ticket->save();
 
-        return response()->json(['success' => true, 'message' => 'Ticket assigné avec succès.']);
+        return back()->with('success', 'Ticket assigned successfully.');
     }
 
+    public function assign(Request $request, Ticket $ticket)
+    {
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
+    
+        $user = Auth::user();
+        if ($user->role !== 'Responsable' && $validatedData['user_id'] != $user->id) {
+            return response()->json(['error' => 'You can only assign tickets to yourself'], 403);
+        }
+    
+        $ticket->assigned_to = $validatedData['user_id'];
+        $ticket->save();
+    
+        return response()->json(['message' => 'Ticket assigned successfully']);
+    }
+    
+    public function updateSystem(Request $request, Ticket $ticket)
+    {
+        $validatedData = $request->validate([
+            'systeme' => 'required|in:' . implode(',', config('constants.all_systems'))
+        ]);
+    
+        $ticket->systeme = $validatedData['systeme'];
+        $ticket->save();
+    
+        return response()->json(['message' => 'Ticket system updated successfully']);
+    }
 
     public function showOne($ticketID)
     {
