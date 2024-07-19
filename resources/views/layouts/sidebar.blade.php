@@ -19,7 +19,7 @@
         <div class="space-x-4">
             <button>
                 <a href="{{ route('profile.showProfile')}}">
-                    <i class="fas fa-user text-[#9B4846] text-lg"></i>
+                    <i class="fas fa-user text-[#9B4846] text-lg">  Mon Profile</i>
                 </a>
             </button>
         </div>
@@ -55,7 +55,7 @@
                 <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
                 <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
             </svg>
-            <span class="ml-3">Archived Tickets</span>
+            <span class="font-medium">Tickets archivés</span>
         </a>
         <a href="{{ route('statistics.index')}}" class="nav-link px-4 py-3 flex items-center space-x-4 rounded-md text-gray-500 group hover:bg-[#DCD0C4] active:opacity-[0.85] active:shadow-none">
             <i class="fas fa-wallet"></i>
@@ -79,7 +79,7 @@
                 @csrf
                 <button type="submit" class="bg-[#253743] hover:bg-[#3e5f77] text-white px-4 py-2 mt-2 font-semibold rounded-full md:mt-0 md:ml-4 uppercase " data-ripple-light="true">
                     <i class="fas fa-sign-out-alt"></i>
-                    LOGOUT
+                    Se Déconnecter
                 </button>
             </form>
         </div>

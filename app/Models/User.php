@@ -49,21 +49,20 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::creating(function ($user) {
-            $systemsByRole = [
-                'Niv 1' => ['SQCA', 'BDT', 'SIGC'],
-                'Niv 2' => ['SGIA', 'Docflow', 'INSAF', 'OBTP'],
-                'Utilisateur standard' => ['Ma Route'],
-                'Responsable' => ['SQCA', 'BDT', 'SIGC', 'SGIA', 'Docflow', 'Ma Route', 'INSAF', 'OBTP'],
-            ];
+    //     static::creating(function ($user) {
+    //         $systemsByRole = [
+    //             'Niv 1' => ['SQCA', 'BDT', 'SIGC', 'SGIA', 'Docflow', 'Ma Route', 'INSAF', 'OBTP'],
+    //             'Niv 2' => ['SQCA', 'BDT', 'SIGC', 'SGIA', 'Docflow', 'Ma Route', 'INSAF', 'OBTP'],
+    //             'Responsable' => ['SQCA', 'BDT', 'SIGC', 'SGIA', 'Docflow', 'Ma Route', 'INSAF', 'OBTP'],
+    //         ];
 
-            $user->assigned_systems = $systemsByRole[$user->role] ?? [];
-        });
-    }
+    //         $user->assigned_systems = $systemsByRole[$user->role] ?? [];
+    //     });
+    // }
 
 
     public function tickets()

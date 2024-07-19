@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Mail;
 
 
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,16 +33,16 @@ Route::get('/', function () {
 
 // Route::get('/', [ArticleBlogController::class, 'welcome'])->name('home');
 
+Route::middleware(['redirectIfAuthenticated'])->group(function () {
+    Route::get('login', [LoginController::class, 'create'])->name('login');
+    Route::post('login', [LoginController::class, 'store'])->name('login');
+});
 
-Route::get('login', [LoginController::class, 'create'])->name('login');
-Route::post('login', [LoginController::class, 'store'])->name('login');
-Route::get('register', [RegisterController::class, 'create'])->name('register');
-Route::post('register', [RegisterController::class, 'store'])->name('register');
+Route::middleware(['restrictRegisterAccess'])->group(function () {
+    Route::get('register', [RegisterController::class, 'create'])->name('register');
+    Route::post('register', [RegisterController::class, 'store'])->name('register');
+});
 Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
-// Route::get('forgotMyPassword', [PasswordOublieController::class, 'create'])->name('forgotPassword');
-// Route::post('forgotMyPassword', [PasswordOublieController::class, 'forgotPassword'])->name('forgotPassword');
-// Route::get('resetMyPassword/{token}', [PasswordOublieController::class, 'resetPassword'])->name('resetPassword');
-// Route::post('resetMyPassword/{token}', [PasswordOublieController::class, 'resetPasswordPost'])->name('resetPassword');
 
 Route::get('addForm', [ReclamationController::class, 'create'])->name('addForm');
 Route::get('infoForm', [ReclamationController::class, 'info'])->name('infoForm');
@@ -60,7 +62,7 @@ Route::patch('/tickets/{ticket}/assign', [TicketController::class, 'assignTicket
 Route::post('/tickets/{ticket}/assign', [TicketController::class, 'assign']);
 
 Route::patch('/tickets/{ticket}/update-system', [TicketController::class, 'updateSystem'])->name('tickets.updateSystem');
-// Route::get('/statistics', [StatisticsController::class, 'getStatistics']);
+
 Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
 
 

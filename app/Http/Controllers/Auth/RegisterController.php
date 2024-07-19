@@ -50,9 +50,8 @@ class RegisterController extends Controller
     protected function getAssignedSystems($role)
     {
         $systemsByRole = [
-            'Niv 1' => ['SQCA', 'BDT', 'SIGC'],
-            'Niv 2' => ['SGIA', 'Docflow', 'INSAF', 'OBTP'],
-            'Utilisateur standard' => ['Ma Route'],
+            'Niv 1' => ['SQCA', 'BDT', 'SIGC', 'SGIA', 'Docflow', 'Ma Route', 'INSAF', 'OBTP'],
+            'Niv 2' => ['SQCA', 'BDT', 'SIGC', 'SGIA', 'Docflow', 'Ma Route', 'INSAF', 'OBTP'],
             'Responsable' => ['SQCA', 'BDT', 'SIGC', 'SGIA', 'Docflow', 'Ma Route', 'INSAF', 'OBTP'],
         ];
 

@@ -130,7 +130,7 @@
                             @endphp
 
                             @if(in_array($ticket->systeme, $assignedSystems))
-                            <button onclick="assignTicket({{ $ticket->id }}, {{ Auth::id() }})">Assign to me</button>
+                            <button class="text-red-600" onclick="assignTicket({{ $ticket->id }}, {{ Auth::id() }})">Assigner à moi</button>
                             @else
                             Unassigned
                             @endif
@@ -139,8 +139,8 @@
                         </td>
 
                         <!-- <td class="py-3 px-4 text-center text-red-600 font-semibold whitespace-nowrap">{{ $ticket->systeme }}</td> -->
-                        <td>
-                            <select name="systeme" id="systeme_{{ $ticket->id }}" class="form-select" onchange="updateSystem({{ $ticket->id }}, this.value)">
+                        <td class="py-3 px-4 text-center">
+                            <select name="systeme" id="systeme_{{ $ticket->id }}" class="form-select whitespace-nowrap rounded-3xl bg-[#F7F5F4] py-2 px-10 text-center text-inherit shadow-lg" onchange="updateSystem({{ $ticket->id }}, this.value)">
                                 @foreach (config('constants.all_systems') as $system)
                                 <option value="{{ $system }}" {{ $ticket->systeme == $system ? 'selected' : '' }}>
                                     {{ $system }}
@@ -164,7 +164,7 @@
     <script>
         setTimeout(function() {
             document.getElementById('alertDiv').style.display = 'none';
-        }, 4000); // 4000 milliseconds 
+        }, 6000); // 4000 milliseconds 
 
         function assignTicketTo(ticketId, userId) {
             fetch(`/tickets/${ticketId}/assign`, {

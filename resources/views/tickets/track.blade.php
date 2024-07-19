@@ -31,7 +31,7 @@
                 <form action="{{ route('guest_ticket.trackForm') }}" method="POST">
                     @csrf
                     <div class="mb-4">
-                        <label for="tracking_code" class="block font-medium text-gray-700">Tracking Code</label>
+                        <label for="tracking_code" class="block font-medium text-gray-700">Code de suivi</label>
                         <input type="text" name="tracking_code" id="tracking_code" class="mt-1 block w-full border border-gray-300 p-2 rounded-full shadow-sm">
                     </div>
                     <div class="flex justify-center">

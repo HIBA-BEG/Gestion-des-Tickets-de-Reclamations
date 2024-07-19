@@ -80,14 +80,14 @@
                         </div>
                         <div class="flex flex-wrap gap-4 justify-center">
                             <div class="mb-4 text-lg">
-                                <div class="py-2">Password: </div>
+                                <div class="py-2">Mot de passe: </div>
                                 <input type="password" name="password" id="password" placeholder="Entrez votre password" class="w-full rounded-3xl border-none bg-[#DCD0C4] px-6 py-2 text-start text-inherit placeholder-grey-500 shadow-lg outline-none backdrop-blur-md" @error('password') border-red-500 @enderror">
                                 @error('password')
                                 <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="mb-4 text-lg">
-                                <div class="py-2">Confirmez le password: </div>
+                                <div class="py-2">Confirmez le mot de passe: </div>
                                 <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirmez votre password" class="w-full rounded-3xl border-none bg-[#DCD0C4] px-6 py-2 text-start text-inherit placeholder-grey-500 shadow-lg outline-none backdrop-blur-md" @error('password_confirmation') border-red-500 @enderror">
                                 @error('password_confirmation')
                                 <p class="text-red-500 text-sm mt-2">{{ $message }}</p>

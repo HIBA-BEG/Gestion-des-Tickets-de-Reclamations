@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="my-4 text-lg">
-                            <div class="py-2">Password: </div>
+                            <div class="py-2">Mot de passe: </div>
                             <input class="rounded-3xl border-none bg-[#DCD0C4] px-6 py-2 text-start text-inherit placeholder-grey-500 shadow-lg outline-none backdrop-blur-md" type="password" name="password" id="password" placeholder="Entrez votre password" />
                         </div>
 

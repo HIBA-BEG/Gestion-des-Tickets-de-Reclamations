@@ -4,7 +4,7 @@
 
 @include('layouts.head')
 
-<body class&="bg-[#F7F5F4] bg-contain bg-no-repeat" style="background-image:  url('/img/zelij.jpg');">
+<body class="bg-[#F7F5F4] bg-cover" style="background-image:  url('/img/zelij.jpg');">
     @include('layouts.sidebar')
     <div class="lg:ml-64 mx-auto py-20 px-10">
         <div class="lg:w-1/2 mx-auto px-4">
@@ -16,37 +16,17 @@
                                 <img alt="..." src="{{ asset('img/ministere_equipement_eau_logo.jpg') }}" class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px">
                             </div>
                         </div>
-                        <!-- <div class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                            <div class="py-6 px-3 mt-32 sm:mt-0">
-                                <button class="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150" type="button">
-                                    Connect
-                                </button>
-                            </div>
-                        </div> -->
-                        <!-- <div class="w-full lg:w-4/12 px-4 lg:order-1">
-                            <div class="flex justify-center py-4 lg:pt-4 pt-8">
-                                <div class="mr-4 p-3 text-center">
-                                    <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">22</span><span class="text-sm text-blueGray-400">Friends</span>
-                                </div>
-                                <div class="mr-4 p-3 text-center">
-                                    <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">10</span><span class="text-sm text-blueGray-400">Photos</span>
-                                </div>
-                                <div class="lg:mr-4 p-3 text-center">
-                                    <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">89</span><span class="text-sm text-blueGray-400">Comments</span>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                     <div class="text-center mt-28 mb-10">
-                        <h3 class="text-4xl font-semibold leading-normal text-blueGray-700 mb-2">
+                        <h3 class="text-4xl font-bold leading-normal text-blueGray-700 mb-2">
                             {{ $user->firstname }}  {{ $user->lastname }}
                         </h3>
-                        <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                        <div class="text-lg leading-normal mt-0 mb-2 text-blueGray-400 font-bold">
                             <i class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
                             {{ $user->email }}
                         </div>
-                        <div class="mb-2 text-blueGray-600">
-                            <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>{{ $user->role }}
+                        <div class="mb-2 font-semibold text-blueGray-600 uppercase">
+                            <i class="fas fa-university mr-2 text-xl text-blueGray-400"></i>{{ $user->role }}
                         </div>
                     </div>
                 </div>

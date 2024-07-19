@@ -3,7 +3,7 @@
 
 @include('layouts.head')
 
-<body class="bg-[#F7F5F4] bg-contain" style="background-image:  url('/img/zelij.jpg');">
+<body class="bg-[#F7F5F4] bg-cover" style="background-image:  url('/img/zelij.jpg');">
     @include('layouts.sidebar')
     <div class="lg:ml-64 mx-auto py-20 px-10">
         <div class="lg:mx-8 py-4 mt-10">
